@@ -7,7 +7,7 @@ export const FullScreenLoader = ({ message = 'Processing...' }) => (
     <div className="glass rounded-2xl p-8 max-w-sm w-full mx-4 border border-accent-light/30 animate-fade-in-up">
       <div className="flex flex-col items-center space-y-6">
         <div className="relative">
-          <div className="absolute inset-0 rounded-full bg-gradient-accent blur-xl opacity-40 animate-pulse" />
+          <div className="absolute inset-0 rounded-full bg-gradient-to-r from-accent to-accent-dark blur-xl opacity-40 animate-pulse" />
           <Loader2 className="w-14 h-14 text-accent-light animate-spin relative" />
         </div>
         <div className="text-center">

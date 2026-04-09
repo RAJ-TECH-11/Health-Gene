@@ -224,7 +224,7 @@ function App() {
               {/* Upload Section */}
               <div>
                 <div className="flex items-center space-x-3 mb-6">
-                  <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gradient-accent text-white font-bold text-sm">1</div>
+                  <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-r from-accent to-accent-dark text-white font-bold text-sm">1</div>
                   <h2 className="text-2xl font-bold font-display text-gray-100">
                     Upload Genetic Data
                   </h2>
@@ -244,7 +244,7 @@ function App() {
               {/* Drug Selection */}
               <div>
                 <div className="flex items-center space-x-3 mb-6">
-                  <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gradient-accent text-white font-bold text-sm">2</div>
+                  <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-r from-accent to-accent-dark text-white font-bold text-sm">2</div>
                   <h2 className="text-2xl font-bold font-display text-gray-100">
                     Select Medications
                   </h2>

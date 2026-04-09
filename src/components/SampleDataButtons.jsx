@@ -160,7 +160,7 @@ const SampleDataButtons = ({ onLoadSample, isLoading }) => {
                         className={`w-full px-3 py-2 text-sm font-semibold rounded-lg transition-all ${
                           isLoading
                             ? 'glass bg-white/5 text-gray-500'
-                            : `bg-gradient-accent text-white hover:shadow-glow`
+                            : `bg-gradient-to-r from-accent to-accent-dark text-white hover:shadow-glow`
                         }`}
                         disabled={isLoading}
                       >

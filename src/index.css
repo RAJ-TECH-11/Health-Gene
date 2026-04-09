@@ -86,8 +86,13 @@ body {
   }
 
   .btn-primary {
-    @apply btn-glow bg-gradient-accent text-white;
-    @apply hover:bg-gradient-accent hover:shadow-glow;
+    @apply btn-glow text-white;
+    background: linear-gradient(135deg, #06B6D4, #0891B2);
+  }
+
+  .btn-primary:hover {
+    @apply shadow-glow;
+    background: linear-gradient(135deg, #22D3EE, #06B6D4);
   }
 
   .btn-secondary {

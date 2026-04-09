@@ -20,8 +20,8 @@ const EnhancedHeader = ({
           {/* Logo and Title */}
           <div className="flex items-center space-x-3 group cursor-pointer">
             <div className="relative">
-              <div className="absolute inset-0 bg-gradient-accent rounded-lg blur-lg opacity-50 group-hover:opacity-75 transition-opacity" />
-              <div className="relative bg-gradient-accent p-2.5 rounded-lg">
+              <div className="absolute inset-0 bg-gradient-to-r from-accent to-accent-dark rounded-lg blur-lg opacity-50 group-hover:opacity-75 transition-opacity" />
+              <div className="relative bg-gradient-to-r from-accent to-accent-dark p-2.5 rounded-lg">
                 <Activity className="w-6 h-6 text-white" />
               </div>
             </div>

@@ -10,8 +10,8 @@ const EnhancedFooter = ({ darkMode }) => {
           <div className="group">
             <div className="flex items-center space-x-2 mb-4">
               <div className="relative">
-                <div className="absolute inset-0 bg-gradient-accent rounded-lg blur-lg opacity-50 group-hover:opacity-75 transition-opacity" />
-                <div className="relative bg-gradient-accent p-2 rounded-lg">
+                <div className="absolute inset-0 bg-gradient-to-r from-accent to-accent-dark rounded-lg blur-lg opacity-50 group-hover:opacity-75 transition-opacity" />
+                <div className="relative bg-gradient-to-r from-accent to-accent-dark p-2 rounded-lg">
                   <Activity className="w-5 h-5 text-white" />
                 </div>
               </div>

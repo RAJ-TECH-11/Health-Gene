@@ -136,7 +136,7 @@ const VCFUploader = ({ onFileSelect, onValidationError, isLoading }) => {
           <div className="relative z-10">
             {file ? (
               <div className="flex flex-col items-center space-y-4 animate-fade-in-up">
-                <div className="p-3 rounded-full bg-gradient-accent/20 border border-success/30">
+                <div className="p-3 rounded-full bg-gradient-to-r from-accent/20 to-accent-dark/20 border border-success/30">
                   <CheckCircle className="w-10 h-10 text-success" />
                 </div>
                 <div>
@@ -153,7 +153,7 @@ const VCFUploader = ({ onFileSelect, onValidationError, isLoading }) => {
                   <div className="w-full max-w-xs">
                     <div className="relative h-2 bg-white/5 rounded-full overflow-hidden">
                       <div
-                        className="absolute inset-y-0 left-0 bg-gradient-accent rounded-full shadow-glow transition-all duration-300"
+                        className="absolute inset-y-0 left-0 bg-gradient-to-r from-accent to-accent-dark rounded-full shadow-glow transition-all duration-300"
                         style={{ width: `${uploadProgress}%` }}
                       />
                     </div>
