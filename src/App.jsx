@@ -266,7 +266,7 @@ function App() {
                   className={`px-8 py-4 rounded-xl font-semibold text-lg transition-all transform duration-300 ${
                     (!vcfFile && !vcfContent) || selectedDrugs.length === 0
                       ? 'glass bg-white/5 text-gray-500 cursor-not-allowed'
-                      : 'btn-primary hover:scale-105 hover:shadow-glow'
+                      : 'btn-primary hover:scale-105'
                   }`}
                 >
                   {(!vcfFile && !vcfContent) || selectedDrugs.length === 0 

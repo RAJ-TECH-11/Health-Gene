@@ -150,11 +150,12 @@ const DrugInput = ({ onDrugSelect, selectedDrugs, isLoading, maxDrugs = 3, avail
                   disabled={isDisabled}
                   className={`text-left rounded-xl p-4 transition-all duration-200 group ${
                     isSelected
-                      ? 'glass bg-white/15 border border-accent-light/50 shadow-glow'
+                      ? 'glass bg-white/15 border border-accent-light/50'
                       : isDisabled
                         ? 'glass bg-white/5 opacity-50 cursor-not-allowed'
                         : 'glass border border-white/10 hover:border-accent-light/30 hover:bg-white/10'
                   }`}
+                  style={isSelected ? { boxShadow: '0 0 20px rgba(6, 182, 212, 0.3)' } : {}}
                 >
                   <div className="flex items-start justify-between gap-2">
                     <div className="min-w-0 flex-1">

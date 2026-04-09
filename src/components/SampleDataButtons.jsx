@@ -160,8 +160,11 @@ const SampleDataButtons = ({ onLoadSample, isLoading }) => {
                         className={`w-full px-3 py-2 text-sm font-semibold rounded-lg transition-all ${
                           isLoading
                             ? 'glass bg-white/5 text-gray-500'
-                            : `bg-gradient-to-r from-accent to-accent-dark text-white hover:shadow-glow`
+                            : `bg-gradient-to-r from-accent to-accent-dark text-white`
                         }`}
+                        style={!isLoading ? { boxShadow: '0 0 20px rgba(6, 182, 212, 0.2)' } : {}}
+                        onMouseEnter={(e) => { if (!isLoading) e.currentTarget.style.boxShadow = '0 0 30px rgba(6, 182, 212, 0.4)'; }}
+                        onMouseLeave={(e) => { if (!isLoading) e.currentTarget.style.boxShadow = '0 0 20px rgba(6, 182, 212, 0.2)'; }}
                         disabled={isLoading}
                       >
                         {isLoading ? '⏳ Loading...' : '📊 Load Sample'}

@@ -114,9 +114,10 @@ const VCFUploader = ({ onFileSelect, onValidationError, isLoading }) => {
         <div
           className={`relative rounded-2xl p-8 text-center transition-all duration-300 ${
             isDragging
-              ? 'glass bg-white/15 border-accent-light scale-105 shadow-glow'
+              ? 'glass bg-white/15 border-accent-light scale-105'
               : 'glass border border-white/10 hover:border-accent-light/50'
           } ${isLoading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer group'}`}
+          style={isDragging ? { boxShadow: '0 0 20px rgba(6, 182, 212, 0.3)' } : {}}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
@@ -153,8 +154,8 @@ const VCFUploader = ({ onFileSelect, onValidationError, isLoading }) => {
                   <div className="w-full max-w-xs">
                     <div className="relative h-2 bg-white/5 rounded-full overflow-hidden">
                       <div
-                        className="absolute inset-y-0 left-0 bg-gradient-to-r from-accent to-accent-dark rounded-full shadow-glow transition-all duration-300"
-                        style={{ width: `${uploadProgress}%` }}
+                        className="absolute inset-y-0 left-0 bg-gradient-to-r from-accent to-accent-dark rounded-full transition-all duration-300"
+                        style={{ width: `${uploadProgress}%`, boxShadow: '0 0 10px rgba(6, 182, 212, 0.4)' }}
                       />
                     </div>
                     <p className="text-xs text-gray-400 mt-2 font-medium">{uploadProgress}%</p>
