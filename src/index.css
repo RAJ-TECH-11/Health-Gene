@@ -100,8 +100,8 @@ body {
   }
 
   .btn-secondary {
-    @apply btn-glow glass text-accent-light;
-    @apply hover:bg-white/20;
+    @apply btn-glow glass hover:bg-white/20;
+    color: #22D3EE;
   }
 
   .card-glass {
