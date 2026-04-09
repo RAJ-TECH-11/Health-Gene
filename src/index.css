@@ -14,8 +14,9 @@ html {
 }
 
 body {
-  @apply bg-primary text-gray-100 font-sans;
   background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #0F172A 100%);
+  color: #E5E7EB;
+  font-family: Inter, system-ui, sans-serif;
   position: relative;
   overflow-x: hidden;
 }
