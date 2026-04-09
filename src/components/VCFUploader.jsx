@@ -103,24 +103,27 @@ const VCFUploader = ({ onFileSelect, onValidationError, isLoading }) => {
   }, [onValidationError]);
 
   return (
-    <div className="w-full max-w-2xl mx-auto">
-      <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Upload VCF File
+    <div className="w-full space-y-4 animate-fade-in-up">
+      <div>
+        <label className="block text-sm font-semibold text-gray-300 mb-3 flex items-center space-x-2">
+          <FileText className="w-4 h-4 text-accent-light" />
+          <span>Upload VCF File</span>
         </label>
         
         {/* Drag and Drop Area */}
         <div
-          className={`relative border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
+          className={`relative rounded-2xl p-8 text-center transition-all duration-300 ${
             isDragging
-              ? 'border-blue-500 bg-blue-50'
-              : 'border-gray-300 bg-gray-50 hover:border-gray-400'
-          } ${isLoading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+              ? 'glass bg-white/15 border-accent-light scale-105 shadow-glow'
+              : 'glass border border-white/10 hover:border-accent-light/50'
+          } ${isLoading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer group'}`}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
           onClick={() => !isLoading && document.getElementById('vcf-file-input').click()}
         >
+          <div className="absolute inset-0 rounded-2xl bg-gradient-glow opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+          
           <input
             id="vcf-file-input"
             type="file"
@@ -130,62 +133,72 @@ const VCFUploader = ({ onFileSelect, onValidationError, isLoading }) => {
             disabled={isLoading}
           />
           
-          {file ? (
-            <div className="flex flex-col items-center space-y-2">
-              <CheckCircle className="w-12 h-12 text-green-500" />
-              <p className="text-sm font-medium text-gray-900">{file.name}</p>
-              <p className="text-xs text-gray-500">
-                {(() => {
-                  if (!file.size) return '0.00 MB';
-                  const sizeInMB = file.size / 1024 / 1024;
-                  return `${sizeInMB.toFixed(2)} MB (${file.size.toLocaleString()} bytes)`;
-                })()}
-              </p>
-              {uploadProgress < 100 && (
-                <div className="w-full max-w-xs">
-                  <div className="bg-gray-200 rounded-full h-2">
-                    <div
-                      className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                      style={{ width: `${uploadProgress}%` }}
-                    />
-                  </div>
-                  <p className="text-xs text-gray-500 mt-1">{uploadProgress}%</p>
+          <div className="relative z-10">
+            {file ? (
+              <div className="flex flex-col items-center space-y-4 animate-fade-in-up">
+                <div className="p-3 rounded-full bg-gradient-accent/20 border border-success/30">
+                  <CheckCircle className="w-10 h-10 text-success" />
                 </div>
-              )}
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  removeFile();
-                }}
-                className="mt-2 px-3 py-1 text-xs bg-red-100 text-red-700 rounded hover:bg-red-200 transition-colors"
-              >
-                Remove
-              </button>
-            </div>
-          ) : (
-            <div className="flex flex-col items-center space-y-2">
-              <Upload className="w-12 h-12 text-gray-400" />
-              <p className="text-sm font-medium text-gray-900">
-                {isDragging ? 'Drop your VCF file here' : 'Drag and drop your VCF file here'}
-              </p>
-              <p className="text-xs text-gray-500">or click to browse</p>
-              <p className="text-xs text-gray-400 mt-2">
-                Supported formats: .vcf, .txt (Max 10MB)
-              </p>
-            </div>
-          )}
+                <div>
+                  <p className="text-sm font-semibold text-gray-100">{file.name}</p>
+                  <p className="text-xs text-gray-400 mt-1">
+                    {(() => {
+                      if (!file.size) return '0.00 MB';
+                      const sizeInMB = file.size / 1024 / 1024;
+                      return `${sizeInMB.toFixed(2)} MB`;
+                    })()}
+                  </p>
+                </div>
+                {uploadProgress < 100 && (
+                  <div className="w-full max-w-xs">
+                    <div className="relative h-2 bg-white/5 rounded-full overflow-hidden">
+                      <div
+                        className="absolute inset-y-0 left-0 bg-gradient-accent rounded-full shadow-glow transition-all duration-300"
+                        style={{ width: `${uploadProgress}%` }}
+                      />
+                    </div>
+                    <p className="text-xs text-gray-400 mt-2 font-medium">{uploadProgress}%</p>
+                  </div>
+                )}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    removeFile();
+                  }}
+                  className="mt-2 px-4 py-1.5 text-xs font-medium bg-danger/20 text-danger hover:bg-danger/40 rounded-lg transition-all duration-200"
+                >
+                  Remove File
+                </button>
+              </div>
+            ) : (
+              <div className="flex flex-col items-center space-y-3">
+                <div className="p-4 rounded-2xl bg-white/5 border border-accent-light/20 group-hover:border-accent-light/40 transition-all">
+                  <Upload className={`w-8 h-8 text-accent-light transition-transform duration-300 ${isDragging ? 'scale-125 animate-bounce' : 'group-hover:scale-110'}`} />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-gray-100">
+                    {isDragging ? '📥 Drop your VCF file here' : 'Drag and drop your VCF file'}
+                  </p>
+                  <p className="text-xs text-gray-400 mt-1">or click to browse your computer</p>
+                </div>
+                <p className="text-xs text-gray-500 font-medium">
+                  Supported: .vcf, .txt (Max 10MB)
+                </p>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Validation Error */}
         {validationError && (
-          <div className="mt-3 flex items-start space-x-2 p-3 bg-red-50 border border-red-200 rounded-lg">
-            <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+          <div className="mt-3 glass p-3 border border-danger/30 bg-danger/10 rounded-xl flex items-start space-x-3 animate-fade-in-up">
+            <AlertCircle className="w-5 h-5 text-danger flex-shrink-0 mt-0.5" />
             <div className="flex-1">
-              <p className="text-sm text-red-800">{validationError}</p>
+              <p className="text-sm text-danger font-medium">{validationError}</p>
             </div>
             <button
               onClick={clearError}
-              className="text-red-400 hover:text-red-600 transition-colors"
+              className="text-danger/70 hover:text-danger transition-colors"
             >
               <X className="w-4 h-4" />
             </button>
@@ -194,9 +207,9 @@ const VCFUploader = ({ onFileSelect, onValidationError, isLoading }) => {
 
         {/* Success Message */}
         {file && !validationError && uploadProgress === 100 && (
-          <div className="mt-3 flex items-center space-x-2 p-3 bg-green-50 border border-green-200 rounded-lg">
-            <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-            <p className="text-sm text-green-800">
+          <div className="mt-3 glass p-3 border border-success/30 bg-success/10 rounded-xl flex items-center space-x-3 animate-fade-in-up">
+            <CheckCircle className="w-5 h-5 text-success flex-shrink-0" />
+            <p className="text-sm text-success font-medium">
               File uploaded successfully. Ready for analysis.
             </p>
           </div>
@@ -204,16 +217,30 @@ const VCFUploader = ({ onFileSelect, onValidationError, isLoading }) => {
       </div>
 
       {/* File Format Info */}
-      <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-        <div className="flex items-start space-x-2">
-          <FileText className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
-          <div className="text-sm text-blue-800">
-            <p className="font-medium mb-1">VCF File Requirements:</p>
-            <ul className="text-xs space-y-1 list-disc list-inside">
-              <li>Standard VCF format with header lines starting with #</li>
-              <li>Contains variant information with CHROM, POS, ID, REF, ALT columns</li>
-              <li>Optional: INFO field with GENE and RSID annotations</li>
-              <li>Maximum file size: 10MB</li>
+      <div className="glass p-4 rounded-xl border border-accent-light/20 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+        <div className="flex items-start space-x-3">
+          <div className="p-2 rounded-lg bg-accent-light/10">
+            <FileText className="w-4 h-4 text-accent-light flex-shrink-0" />
+          </div>
+          <div className="text-sm">
+            <p className="font-semibold text-gray-100 mb-2">VCF File Requirements</p>
+            <ul className="text-xs text-gray-400 space-y-1.5">
+              <li className="flex items-start space-x-2">
+                <span className="text-accent-light mt-1">•</span>
+                <span>Standard VCF format with header lines starting with #</span>
+              </li>
+              <li className="flex items-start space-x-2">
+                <span className="text-accent-light mt-1">•</span>
+                <span>Contains variant information (CHROM, POS, ID, REF, ALT)</span>
+              </li>
+              <li className="flex items-start space-x-2">
+                <span className="text-accent-light mt-1">•</span>
+                <span>Optional: INFO field with GENE and RSID annotations</span>
+              </li>
+              <li className="flex items-start space-x-2">
+                <span className="text-accent-light mt-1">•</span>
+                <span>Maximum file size: 10MB</span>
+              </li>
             </ul>
           </div>
         </div>

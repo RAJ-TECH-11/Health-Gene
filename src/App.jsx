@@ -133,7 +133,7 @@ function App() {
   }, []);
 
   return (
-    <div className={`min-h-screen flex flex-col ${darkMode ? 'dark bg-gray-900' : 'bg-gray-50'}`}>
+    <div className="min-h-screen flex flex-col bg-primary dark">
       {/* Enhanced Header */}
       <EnhancedHeader
         darkMode={darkMode}
@@ -143,48 +143,44 @@ function App() {
       />
 
       {/* Main Content */}
-      <main className="flex-1">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="flex-1 relative">
+        {/* Background gradient */}
+        <div className="absolute inset-0 opacity-30 pointer-events-none">
+          <div className="absolute top-0 left-1/2 w-96 h-96 bg-accent/20 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
+          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl translate-y-1/2" />
+        </div>
+
+        <div className="max-w-7xl mx-auto px-6 py-12 relative z-10">
           {/* System Status */}
           <div className="mb-8">
-            <div className={`p-4 rounded-lg border ${
-              darkMode 
-                ? 'bg-gray-800 border-gray-700' 
-                : 'bg-white border-gray-200'
-            }`}>
-              <div className="flex items-center justify-between">
+            <div className="glass p-4 rounded-xl border border-white/5">
+              <div className="flex items-center justify-between flex-col sm:flex-row gap-4">
                 <div className="flex items-center space-x-3">
-                  <div className={`w-3 h-3 rounded-full ${isHealthy ? 'bg-green-500' : 'bg-red-500'} animate-pulse`}></div>
-                  <span className={`text-sm font-medium ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                    System Status: {isHealthy ? 'Online' : 'Offline'}
-                  </span>
-                  {lastCheck && (
-                    <span className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                      Last check: {new Date(lastCheck).toLocaleTimeString()}
+                  <div className={`w-3 h-3 rounded-full ${isHealthy ? 'bg-success shadow-lg shadow-success/50' : 'bg-danger shadow-lg shadow-danger/50'} animate-pulse`}></div>
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-3">
+                    <span className="text-sm font-medium text-gray-100">
+                      {isHealthy ? '✓ System Online' : '✗ System Offline'}
                     </span>
-                  )}
+                    {lastCheck && (
+                      <span className="text-xs text-gray-500">
+                        Last check: {new Date(lastCheck).toLocaleTimeString()}
+                      </span>
+                    )}
+                  </div>
                 </div>
                 
-                <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-2">
                   <button
                     onClick={() => setShowDemo(true)}
-                    className={`px-4 py-2 rounded-lg transition-colors flex items-center space-x-2 ${
-                      darkMode
-                        ? 'bg-purple-600 text-white hover:bg-purple-700'
-                        : 'bg-purple-600 text-white hover:bg-purple-700'
-                    }`}
+                    className="btn-primary text-sm px-4 py-2 flex items-center space-x-2 group"
                   >
-                    <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>
+                    <span className="w-2 h-2 bg-white rounded-full animate-pulse group-hover:scale-150 transition-transform" />
                     <span>Start Demo</span>
                   </button>
                   
                   <button
                     onClick={handleReset}
-                    className={`px-4 py-2 rounded-lg transition-colors ${
-                      darkMode
-                        ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                    }`}
+                    className="btn-secondary text-sm px-4 py-2 transition-all"
                   >
                     Reset
                   </button>
@@ -195,7 +191,7 @@ function App() {
 
           {/* Error State */}
           {error && (
-            <div className="mb-8">
+            <div className="mb-8 animate-fade-in-up">
               <ErrorState 
                 title="System Error"
                 message={error}
@@ -224,12 +220,15 @@ function App() {
 
           {/* Main Workflow */}
           {!showResults && !loading && (
-            <div className="space-y-8">
+            <div className="space-y-8 stagger">
               {/* Upload Section */}
               <div>
-                <h2 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                  1. Upload Genetic Data
-                </h2>
+                <div className="flex items-center space-x-3 mb-6">
+                  <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gradient-accent text-white font-bold text-sm">1</div>
+                  <h2 className="text-2xl font-bold font-display text-gray-100">
+                    Upload Genetic Data
+                  </h2>
+                </div>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   <VCFUploader 
                     onFileSelect={handleFileSelect}
@@ -244,9 +243,12 @@ function App() {
 
               {/* Drug Selection */}
               <div>
-                <h2 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                  2. Select Medications
-                </h2>
+                <div className="flex items-center space-x-3 mb-6">
+                  <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gradient-accent text-white font-bold text-sm">2</div>
+                  <h2 className="text-2xl font-bold font-display text-gray-100">
+                    Select Medications
+                  </h2>
+                </div>
                 <DrugInput 
                   onDrugSelect={handleDrugSelect}
                   selectedDrugs={selectedDrugs}
@@ -257,18 +259,14 @@ function App() {
               </div>
 
               {/* Analysis Button */}
-              <div className="text-center">
+              <div className="text-center pt-4">
                 <button
                   onClick={handleAnalyze}
                   disabled={!vcfFile && !vcfContent || selectedDrugs.length === 0}
-                  className={`px-8 py-4 rounded-lg font-semibold text-lg transition-all transform hover:scale-105 ${
+                  className={`px-8 py-4 rounded-xl font-semibold text-lg transition-all transform duration-300 ${
                     (!vcfFile && !vcfContent) || selectedDrugs.length === 0
-                      ? darkMode
-                        ? 'bg-gray-700 text-gray-500 cursor-not-allowed'
-                        : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                      : darkMode
-                        ? 'bg-blue-600 text-white hover:bg-blue-700 shadow-lg'
-                        : 'bg-blue-600 text-white hover:bg-blue-700 shadow-lg'
+                      ? 'glass bg-white/5 text-gray-500 cursor-not-allowed'
+                      : 'btn-primary hover:scale-105 hover:shadow-glow'
                   }`}
                 >
                   {(!vcfFile && !vcfContent) || selectedDrugs.length === 0 
@@ -280,12 +278,8 @@ function App() {
 
               {/* Error Display */}
               {analysisError && (
-                <div className={`p-4 rounded-lg border ${
-                  darkMode 
-                    ? 'bg-red-900 border-red-700 text-red-200' 
-                    : 'bg-red-100 border-red-300 text-red-800'
-                }`}>
-                  <p className="font-medium">Error: {analysisError}</p>
+                <div className="glass p-4 rounded-xl border border-danger/30 bg-danger/10 animate-fade-in-up">
+                  <p className="font-medium text-danger">✗ Error: {analysisError}</p>
                 </div>
               )}
             </div>
@@ -293,13 +287,13 @@ function App() {
 
           {/* Results Section */}
           {showResults && analysisResult && !loading && (
-            <div className="space-y-8">
-              <div className="text-center">
-                <h2 className={`text-3xl font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <div className="space-y-8 stagger">
+              <div className="text-center mb-8">
+                <h2 className="text-4xl font-bold font-display gradient-text mb-3">
                   Analysis Results
                 </h2>
-                <p className={`text-lg ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                  {currentPatient?.name || 'Patient'} - {selectedDrugs.map((drug) => (typeof drug === 'string' ? drug : drug.name)).join(', ')}
+                <p className="text-lg text-gray-400">
+                  {currentPatient?.name || 'Patient'} • {selectedDrugs.map((drug) => (typeof drug === 'string' ? drug : drug.name)).join(', ')}
                 </p>
               </div>
 
@@ -310,8 +304,9 @@ function App() {
 
               {/* Variant Details */}
               <div>
-                <h3 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                  Genetic Variant Details
+                <h3 className="text-2xl font-bold font-display text-gray-100 mb-4 flex items-center space-x-2">
+                  <span className="text-accent-light">◆</span>
+                  <span>Genetic Variant Details</span>
                 </h3>
                 <VariantDetails 
                   pharmacogenomicProfile={analysisResult.pharmacogenomic_profile}
@@ -321,8 +316,9 @@ function App() {
 
               {/* AI Explanation */}
               <div>
-                <h3 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                  AI-Powered Clinical Explanation
+                <h3 className="text-2xl font-bold font-display text-gray-100 mb-4 flex items-center space-x-2">
+                  <span className="text-accent-light">✨</span>
+                  <span>AI-Powered Clinical Explanation</span>
                 </h3>
                 <LLMExplanation 
                   explanation={analysisResult.explanation}
@@ -334,8 +330,9 @@ function App() {
 
               {/* Clinical Recommendations */}
               <div>
-                <h3 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                  Clinical Recommendations
+                <h3 className="text-2xl font-bold font-display text-gray-100 mb-4 flex items-center space-x-2">
+                  <span className="text-accent-light">🏥</span>
+                  <span>Clinical Recommendations</span>
                 </h3>
                 <ClinicalRecommendations 
                   riskAssessment={analysisResult.risk_assessment}
@@ -346,8 +343,9 @@ function App() {
 
               {/* Export Functionality */}
               <div>
-                <h3 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                  Export Results
+                <h3 className="text-2xl font-bold font-display text-gray-100 mb-4 flex items-center space-x-2">
+                  <span className="text-accent-light">📥</span>
+                  <span>Export Results</span>
                 </h3>
                 <ExportFunctionality 
                   analysisData={analysisResult}
@@ -355,24 +353,16 @@ function App() {
               </div>
 
               {/* Action Buttons */}
-              <div className="flex justify-center space-x-4">
+              <div className="flex justify-center items-center space-x-4 pt-6">
                 <button
                   onClick={handleReset}
-                  className={`px-6 py-3 rounded-lg font-semibold transition-colors ${
-                    darkMode
-                      ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                      : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                  }`}
+                  className="btn-secondary px-6 py-3 font-semibold transition-all"
                 >
                   New Analysis
                 </button>
                 <button
                   onClick={() => setShowDemo(true)}
-                  className={`px-6 py-3 rounded-lg font-semibold transition-colors ${
-                    darkMode
-                      ? 'bg-purple-600 text-white hover:bg-purple-700'
-                      : 'bg-purple-600 text-white hover:bg-purple-700'
-                  }`}
+                  className="btn-primary px-6 py-3 font-semibold transition-all hover:scale-105"
                 >
                   View Demo
                 </button>

@@ -3,12 +3,26 @@ import { Loader2, Upload, Search, AlertCircle, CheckCircle } from 'lucide-react'
 
 // Full screen loading overlay
 export const FullScreenLoader = ({ message = 'Processing...' }) => (
-  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-    <div className="bg-white rounded-lg p-8 max-w-sm w-full mx-4">
-      <div className="flex flex-col items-center space-y-4">
-        <Loader2 className="w-12 h-12 text-blue-600 animate-spin" />
-        <p className="text-lg font-medium text-gray-900 text-center">{message}</p>
-        <p className="text-sm text-gray-500 text-center">Please wait...</p>
+  <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
+    <div className="glass rounded-2xl p-8 max-w-sm w-full mx-4 border border-accent-light/30 animate-fade-in-up">
+      <div className="flex flex-col items-center space-y-6">
+        <div className="relative">
+          <div className="absolute inset-0 rounded-full bg-gradient-accent blur-xl opacity-40 animate-pulse" />
+          <Loader2 className="w-14 h-14 text-accent-light animate-spin relative" />
+        </div>
+        <div className="text-center">
+          <p className="text-lg font-semibold text-gray-100">{message}</p>
+          <p className="text-sm text-gray-400 mt-2">Please wait...</p>
+        </div>
+        <div className="flex space-x-2">
+          {[0, 1, 2].map((i) => (
+            <div
+              key={i}
+              className="w-2 h-2 rounded-full bg-accent-light animate-pulse"
+              style={{ animationDelay: `${i * 200}ms` }}
+            />
+          ))}
+        </div>
       </div>
     </div>
   </div>
@@ -23,9 +37,9 @@ export const InlineLoader = ({ size = 'md', text = 'Loading...' }) => {
   };
 
   return (
-    <div className="flex items-center space-x-2">
-      <Loader2 className={`${sizeClasses[size]} text-blue-600 animate-spin`} />
-      {text && <span className="text-sm text-gray-600">{text}</span>}
+    <div className="flex items-center space-x-3">
+      <Loader2 className={`${sizeClasses[size]} text-accent-light animate-spin`} />
+      {text && <span className="text-sm text-gray-400">{text}</span>}
     </div>
   );
 };
@@ -86,17 +100,19 @@ export const DrugSearchLoader = () => (
 
 // Error state component
 export const ErrorState = ({ error, onRetry, onDismiss }) => (
-  <div className="flex flex-col items-center space-y-4 p-6 bg-red-50 border border-red-200 rounded-lg">
-    <AlertCircle className="w-12 h-12 text-red-600" />
-    <div className="text-center">
-      <h3 className="text-lg font-medium text-red-900">Something went wrong</h3>
-      <p className="text-sm text-red-700 mt-1">{error?.message || 'An unexpected error occurred'}</p>
+  <div className="glass p-6 border border-danger/30 bg-danger/10 rounded-2xl flex flex-col items-center space-y-4 animate-fade-in-up">
+    <div className="p-3 rounded-full bg-danger/20 border border-danger/30">
+      <AlertCircle className="w-8 h-8 text-danger" />
     </div>
-    <div className="flex space-x-3">
+    <div className="text-center">
+      <h3 className="text-lg font-semibold text-gray-100">Something went wrong</h3>
+      <p className="text-sm text-gray-400 mt-2">{error?.message || 'An unexpected error occurred'}</p>
+    </div>
+    <div className="flex space-x-3 pt-2">
       {onRetry && (
         <button
           onClick={onRetry}
-          className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+          className="px-4 py-2 bg-danger hover:bg-danger-dark text-white rounded-lg transition-all duration-200 font-medium"
         >
           Try Again
         </button>
@@ -104,7 +120,7 @@ export const ErrorState = ({ error, onRetry, onDismiss }) => (
       {onDismiss && (
         <button
           onClick={onDismiss}
-          className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+          className="px-4 py-2 glass hover:bg-white/20 text-gray-300 rounded-lg transition-all duration-200 font-medium"
         >
           Dismiss
         </button>
@@ -115,17 +131,19 @@ export const ErrorState = ({ error, onRetry, onDismiss }) => (
 
 // Success state component
 export const SuccessState = ({ message, onDismiss, actionText, onAction }) => (
-  <div className="flex flex-col items-center space-y-4 p-6 bg-green-50 border border-green-200 rounded-lg">
-    <CheckCircle className="w-12 h-12 text-green-600" />
-    <div className="text-center">
-      <h3 className="text-lg font-medium text-green-900">Success!</h3>
-      <p className="text-sm text-green-700 mt-1">{message}</p>
+  <div className="glass p-6 border border-success/30 bg-success/10 rounded-2xl flex flex-col items-center space-y-4 animate-fade-in-up">
+    <div className="p-3 rounded-full bg-success/20 border border-success/30">
+      <CheckCircle className="w-8 h-8 text-success" />
     </div>
-    <div className="flex space-x-3">
+    <div className="text-center">
+      <h3 className="text-lg font-semibold text-gray-100">Success!</h3>
+      <p className="text-sm text-gray-400 mt-2">{message}</p>
+    </div>
+    <div className="flex space-x-3 pt-2">
       {onAction && actionText && (
         <button
           onClick={onAction}
-          className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+          className="px-4 py-2 bg-success hover:bg-success/80 text-white rounded-lg transition-all duration-200 font-medium"
         >
           {actionText}
         </button>
@@ -133,7 +151,7 @@ export const SuccessState = ({ message, onDismiss, actionText, onAction }) => (
       {onDismiss && (
         <button
           onClick={onDismiss}
-          className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+          className="px-4 py-2 glass hover:bg-white/20 text-gray-300 rounded-lg transition-all duration-200 font-medium"
         >
           {onAction ? 'Later' : 'Dismiss'}
         </button>

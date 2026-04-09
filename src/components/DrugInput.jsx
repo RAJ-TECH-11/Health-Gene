@@ -99,39 +99,41 @@ const DrugInput = ({ onDrugSelect, selectedDrugs, isLoading, maxDrugs = 3, avail
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto">
-      <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Select Drug(s) for Analysis
+    <div className="w-full space-y-6 animate-fade-in-up">
+      <div>
+        <label className="block text-sm font-semibold text-gray-300 mb-3 flex items-center space-x-2">
+          <Pill className="w-4 h-4 text-accent-light" />
+          <span>Select Drug(s) for Analysis</span>
         </label>
         
         {/* Drug Input */}
         <div className="relative">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={handleInputChange}
-              placeholder="Search for a drug (e.g., clopidogrel, warfarin, codeine)..."
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              disabled={isLoading}
-            />
-            {selectedDrugs.length >= maxDrugs && (
-              <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                <span className="text-xs text-amber-600 font-medium">
-                  Max {maxDrugs} drugs
-                </span>
-              </div>
-            )}
-          </div>
+          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500" />
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={handleInputChange}
+            placeholder="Search by drug name, category, or indication..."
+            className="w-full pl-11 pr-4 py-3 glass rounded-xl border border-white/10 bg-white/5 text-gray-100 placeholder-gray-500 focus:outline-none focus:border-accent-light/50 focus:bg-white/10 transition-all duration-200"
+            disabled={isLoading}
+          />
+          {selectedDrugs.length >= maxDrugs && (
+            <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
+              <span className="text-xs text-warning font-medium bg-warning/20 px-2.5 py-1 rounded-lg">
+                Max {maxDrugs} drugs
+              </span>
+            </div>
+          )}
         </div>
       </div>
 
       {/* Drug Cards Grid */}
-      <div className="mb-5">
-        <p className="text-sm font-medium text-gray-700 mb-3">
-          Available Model-Supported Drugs ({filteredDrugs.length})
+      <div>
+        <p className="text-sm font-semibold text-gray-300 mb-3 flex items-center space-x-2">
+          <span>Available Model-Supported Drugs</span>
+          <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-accent-light/20 text-accent-light text-xs font-bold">
+            {filteredDrugs.length}
+          </span>
         </p>
         {filteredDrugs.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -146,22 +148,22 @@ const DrugInput = ({ onDrugSelect, selectedDrugs, isLoading, maxDrugs = 3, avail
                   type="button"
                   onClick={() => !isDisabled && selectDrug(drug)}
                   disabled={isDisabled}
-                  className={`text-left border rounded-lg p-3 transition-all ${
+                  className={`text-left rounded-xl p-4 transition-all duration-200 group ${
                     isSelected
-                      ? 'border-blue-500 bg-blue-50'
+                      ? 'glass bg-white/15 border border-accent-light/50 shadow-glow'
                       : isDisabled
-                        ? 'border-gray-200 bg-gray-50 opacity-60 cursor-not-allowed'
-                        : 'border-gray-200 bg-white hover:border-blue-300 hover:bg-blue-50'
+                        ? 'glass bg-white/5 opacity-50 cursor-not-allowed'
+                        : 'glass border border-white/10 hover:border-accent-light/30 hover:bg-white/10'
                   }`}
                 >
-                  <div className="flex items-start justify-between">
-                    <div className="min-w-0">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0 flex-1">
                       <div className="flex items-center space-x-2">
-                        <Pill className="w-4 h-4 text-gray-500" />
-                        <p className="font-medium text-gray-900 truncate">{drug.name}</p>
+                        <Pill className="w-4 h-4 text-accent-light flex-shrink-0" />
+                        <p className="font-medium text-gray-100 truncate capitalize">{drug.name}</p>
                       </div>
-                      <p className="text-xs text-gray-600 mt-1 truncate">{drug.category}</p>
-                      <p className="text-xs text-gray-500 mt-1 truncate">Genes: {drug.genes.join(', ')}</p>
+                      <p className="text-xs text-gray-400 mt-1.5 truncate">{drug.category}</p>
+                      <p className="text-xs text-gray-500 mt-1 truncate">🔬 {drug.genes.join(', ')}</p>
                     </div>
                     <button
                       type="button"
@@ -169,14 +171,14 @@ const DrugInput = ({ onDrugSelect, selectedDrugs, isLoading, maxDrugs = 3, avail
                         e.stopPropagation();
                         showDrugInfo(drug);
                       }}
-                      className="ml-2 p-1 hover:bg-gray-100 rounded"
+                      className="flex-shrink-0 p-1.5 rounded-lg bg-white/5 hover:bg-white/10 transition-all"
                     >
-                      <Info className="w-4 h-4 text-gray-400" />
+                      <Info className="w-4 h-4 text-gray-400 group-hover:text-accent-light" />
                     </button>
                   </div>
                   {isSelected && (
-                    <span className="inline-block mt-2 text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
-                      Selected
+                    <span className="inline-block mt-3 text-xs bg-success/20 text-success px-2.5 py-1 rounded-lg font-medium">
+                      ✓ Selected
                     </span>
                   )}
                 </button>
@@ -184,50 +186,53 @@ const DrugInput = ({ onDrugSelect, selectedDrugs, isLoading, maxDrugs = 3, avail
             })}
           </div>
         ) : (
-          <div className="p-4 border border-gray-200 rounded-lg bg-gray-50">
-            <p className="text-sm text-gray-600 text-center">No drugs found for "{searchTerm}"</p>
+          <div className="glass p-6 rounded-xl border border-white/5 text-center animate-fade-in-up">
+            <p className="text-sm text-gray-400">No drugs found for <span className="text-accent-light font-medium">"{searchTerm}"</span></p>
           </div>
         )}
       </div>
 
       {/* Selected Drugs */}
       {selectedDrugs.length > 0 && (
-        <div className="mb-4">
-          <p className="text-sm font-medium text-gray-700 mb-2">
-            Selected Drugs ({selectedDrugs.length}/{maxDrugs})
+        <div className="pt-4 border-t border-white/5">
+          <p className="text-sm font-semibold text-gray-300 mb-3 flex items-center space-x-2">
+            <span>Selected Drugs</span>
+            <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-success/20 text-success text-xs font-bold">
+              {selectedDrugs.length}
+            </span>
           </p>
           <div className="space-y-2">
             {selectedDrugs.map((drug) => (
               <div
                 key={typeof drug === 'string' ? drug : drug.name}
-                className={`flex items-center justify-between p-3 rounded-lg border ${getRiskColor(drug)}`}
+                className="glass p-3.5 rounded-xl border border-success/30 bg-success/10 flex items-center justify-between group hover:border-success/50 hover:bg-success/15 transition-all"
               >
-                <div className="flex items-center space-x-3">
-                  <Pill className="w-5 h-5" />
-                  <div>
-                    <p className="font-medium">{typeof drug === 'string' ? drug : drug.name}</p>
-                    <p className="text-xs opacity-75">
+                <div className="flex items-center space-x-3 flex-1 min-w-0">
+                  <Pill className="w-4 h-4 text-success flex-shrink-0" />
+                  <div className="min-w-0">
+                    <p className="font-medium text-gray-100 capitalize">{typeof drug === 'string' ? drug : drug.name}</p>
+                    <p className="text-xs text-gray-400 truncate">
                       {typeof drug === 'string' ? 'Selected medication' : `${drug.category} • ${drug.indication}`}
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-1 ml-2">
                   <button
                     onClick={() => {
                       if (typeof drug !== 'string') {
                         showDrugInfo(drug);
                       }
                     }}
-                    className="p-1 hover:bg-white hover:bg-opacity-50 rounded"
+                    className="p-1.5 rounded-lg hover:bg-white/10 transition-all"
                     disabled={typeof drug === 'string'}
                   >
-                    <Info className="w-4 h-4" />
+                    <Info className="w-4 h-4 text-gray-400 group-hover:text-accent-light" />
                   </button>
                   <button
                     onClick={() => removeDrug(typeof drug === 'string' ? drug : drug.name)}
-                    className="p-1 hover:bg-white hover:bg-opacity-50 rounded"
+                    className="p-1.5 rounded-lg hover:bg-danger/20 transition-all"
                   >
-                    <X className="w-4 h-4" />
+                    <X className="w-4 h-4 text-gray-400 group-hover:text-danger" />
                   </button>
                 </div>
               </div>
@@ -238,35 +243,35 @@ const DrugInput = ({ onDrugSelect, selectedDrugs, isLoading, maxDrugs = 3, avail
 
       {/* Drug Info Modal */}
       {selectedDrugInfo && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-medium text-gray-900">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="glass rounded-2xl p-6 max-w-md w-full border border-accent-light/30 animate-fade-in-up">
+            <div className="flex items-center justify-between mb-5">
+              <h3 className="text-xl font-bold font-display text-gray-100 capitalize">
                 {selectedDrugInfo.name}
               </h3>
               <button
                 onClick={() => setSelectedDrugInfo(null)}
-                className="p-1 hover:bg-gray-100 rounded"
+                className="p-1.5 rounded-lg hover:bg-white/10 transition-all"
               >
-                <X className="w-5 h-5 text-gray-500" />
+                <X className="w-5 h-5 text-gray-400" />
               </button>
             </div>
-            <div className="space-y-3">
-              <div>
-                <p className="text-sm font-medium text-gray-700">Category</p>
-                <p className="text-sm text-gray-600">{selectedDrugInfo.category}</p>
+            <div className="space-y-4">
+              <div className="glass p-3 rounded-lg border border-white/5 bg-white/5">
+                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-1">Category</p>
+                <p className="text-sm text-gray-200 font-medium">{selectedDrugInfo.category}</p>
               </div>
-              <div>
-                <p className="text-sm font-medium text-gray-700">Indication</p>
-                <p className="text-sm text-gray-600">{selectedDrugInfo.indication}</p>
+              <div className="glass p-3 rounded-lg border border-white/5 bg-white/5">
+                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-1">Indication</p>
+                <p className="text-sm text-gray-200">{selectedDrugInfo.indication}</p>
               </div>
-              <div>
-                <p className="text-sm font-medium text-gray-700">Relevant Genes</p>
-                <div className="flex flex-wrap gap-1 mt-1">
+              <div className="glass p-3 rounded-lg border border-white/5 bg-white/5">
+                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2.5">Relevant Genes</p>
+                <div className="flex flex-wrap gap-2">
                   {selectedDrugInfo.genes.map((gene) => (
                     <span
                       key={gene}
-                      className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
+                      className="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold bg-accent-light/20 text-accent-light border border-accent-light/30"
                     >
                       {gene}
                     </span>
@@ -279,16 +284,28 @@ const DrugInput = ({ onDrugSelect, selectedDrugs, isLoading, maxDrugs = 3, avail
       )}
 
       {/* Help Text */}
-      <div className="mt-4 p-3 bg-amber-50 border border-amber-200 rounded-lg">
-        <div className="flex items-start space-x-2">
-          <Info className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
-          <div className="text-sm text-amber-800">
-            <p className="font-medium mb-1">Drug Selection Tips:</p>
-            <ul className="text-xs space-y-1 list-disc list-inside">
-              <li>Search by drug name, category, or indication</li>
-              <li>Select up to {maxDrugs} drugs for comparative analysis</li>
-              <li>Click the info icon to see drug details and relevant genes</li>
-              <li>All drugs have established pharmacogenomic guidelines</li>
+      <div className="glass p-4 rounded-xl border border-warning/30 bg-warning/10 space-y-2">
+        <div className="flex items-start space-x-3">
+          <Info className="w-4 h-4 text-warning flex-shrink-0 mt-0.5" />
+          <div className="text-sm text-gray-300">
+            <p className="font-semibold mb-2.5 text-warning">💡 Drug Selection Tips</p>
+            <ul className="text-xs space-y-1.5 text-gray-400">
+              <li className="flex items-start space-x-2">
+                <span className="text-warning mt-1">•</span>
+                <span>Search by drug name, category, or indication</span>
+              </li>
+              <li className="flex items-start space-x-2">
+                <span className="text-warning mt-1">•</span>
+                <span>Select up to {maxDrugs} drugs for comparative analysis</span>
+              </li>
+              <li className="flex items-start space-x-2">
+                <span className="text-warning mt-1">•</span>
+                <span>Click the info icon to see drug details and relevant genes</span>
+              </li>
+              <li className="flex items-start space-x-2">
+                <span className="text-warning mt-1">•</span>
+                <span>All drugs have established pharmacogenomic guidelines</span>
+              </li>
             </ul>
           </div>
         </div>
